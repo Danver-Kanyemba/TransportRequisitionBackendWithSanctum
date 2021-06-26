@@ -27,7 +27,7 @@ class CreateTransportRequestsTable extends Migration
             $table->date('return_date');
             $table->time('return_time');
             $table->boolean('recommended_by_hod')->default(0);
-
+//
         });
     }
 
