@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -34,10 +35,14 @@ class RegisterController extends Controller
             ]);
             // User::create($request->all());
             User::create([
-            'name'     => $user->name,
-            'email'    => $user->email,
-            'provider' => $provider,
-            'provider_id' => $user->id
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'cell'     => $request->name,
+            'password'    => Hash::make($request->password),
+            'department_id'     => $request->department_id,
+            'group_id'     => $request->group_id,
+
+
         ]);
             return response()->json([
                 'status_code' => 200,
