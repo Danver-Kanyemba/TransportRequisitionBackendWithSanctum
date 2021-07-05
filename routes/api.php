@@ -11,14 +11,15 @@ Route::post('/authenticate', [AuthController::class,'login']);
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::apiResource('transportr', TransportRequestController::class);
+    Route::apiResource('transport',TransportRequestController::class);
 });
+Route::apiResource('register',RegisterController::class);
+Route::apiResource('departments',DepartmentsController::class);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::apiResource('departments',DepartmentsController::class);
 
-Route::apiResource('register',RegisterController::class);
 
 Route::Get('login', function()
 { 

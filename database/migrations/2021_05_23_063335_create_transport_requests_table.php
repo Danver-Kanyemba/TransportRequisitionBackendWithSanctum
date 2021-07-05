@@ -19,13 +19,12 @@ class CreateTransportRequestsTable extends Migration
             $table->boolean('seen')->default(0);
             $table->integer('user_id')->index();
             $table->string('name');
-            $table->string('cell');
             $table->integer('no_of_People');
             $table->string('destination');
             $table->date('departure_date');
-            $table->time('departure_time');            
+            $table->string('departure_time');            
             $table->date('return_date');
-            $table->time('return_time');
+            $table->string('return_time');
             $table->boolean('recommended_by_hod')->default(0);
 //
         });
