@@ -11,7 +11,7 @@ class TransportRequest extends Model
     protected $fillable =[
         'seen',
         'user_id',
-        'name',
+        'names_of_people',
         'cell',
         'no_of_People',
         'destination',
@@ -19,7 +19,8 @@ class TransportRequest extends Model
         'departure_time',
         'return_date',
         'return_time',
-        'recommended_by_hod',
+        'approved_by_hod',
+        'approved_by_transport',
     ];
     public function user(){
         return $this->belongsTo(\App\Models\User::class);
