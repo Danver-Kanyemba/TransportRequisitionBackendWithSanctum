@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TransportRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TransportRequestController extends Controller
 {
@@ -16,10 +17,13 @@ class TransportRequestController extends Controller
      */
     public function index()
     {
-        $transportRequest = TransportRequest::all();
-        return response()->json([
+        $transportRequest = DB::table('transport_requests')
+                            ->join('users', 'users.id','=', 'transport_requests.user_id')
+                            ->select('users.id','users.name','users.cell','transport_requests.*')
+                            ->get();
+        return (
             $transportRequest
-        ]);
+    );
     }
 
     /**
@@ -32,27 +36,29 @@ class TransportRequestController extends Controller
     {
         try {
             $request->validate([
-              'name' => 'required', 
+              'names_of_people' => 'required', 
               'no_of_People' => 'required', 
               'destination' => 'required', 
               'departure_date' => 'required', 
+              'departure_time' => 'required', 
               'return_date' => 'required', 
               'return_time' => 'required' 
             ]);
             
             TransportRequest::create([
-            'name'     => $request->name,
+            'names_of_people'     => $request->names_of_people,
             'no_of_People'    => $request->no_of_People,
             'destination'     => $request->destination,
             'departure_date'     => $request->departure_date,
             'departure_time'    => $request->departure_time,
             'return_date'     => $request->return_date,
-            'return_time'     => $request->departure_date,
+            'return_time'     => $request->return_time,
              'user_id'      => Auth::id(),  
         ]);
             return response()->json([
                 'status_code' => 200,
                 'message' => 'Transport Rquested successfull',
+                $request->names_of_people,
               ]);           
 
         } catch (Exception $error) {
@@ -72,7 +78,16 @@ class TransportRequestController extends Controller
      */
     public function show($id)
     {
-        //
+        
+        $transportRequest2 = DB::table('transport_requests')
+        ->join('users', 'users.id','=', 'transport_requests.user_id')
+        ->join('departments', 'departments.id' ,'=', 'users.department_id')
+        ->select('users.id','users.name','transport_requests.*')
+        ->where('transport_requests.id','=',$id)
+        ->get();
+        return (
+        $transportRequest2
+        );
     }
 
     /**
