@@ -33,6 +33,7 @@ class AuthController extends Controller
           'status_code' => 200,
           'access_token' => $tokenResult,
           'token_type' => 'Bearer',
+          'message' => 'Login Successfull'
         ]);
     } catch (Exception $error) {
         return response()->json([
