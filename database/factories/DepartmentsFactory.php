@@ -22,7 +22,8 @@ class DepartmentsFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
+            'department_name' => $this->faker->name(),
+            'HOD' => ('0'),
         ];
     }
 }

@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TransportRequest;
+use App\Models\Departments;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
 
 class TransportRequestController extends Controller
 {
@@ -17,13 +19,23 @@ class TransportRequestController extends Controller
      */
     public function index()
     {
+        $checkingIfHod=false;
         $transportRequest = DB::table('transport_requests')
                             ->join('users', 'users.id','=', 'transport_requests.user_id')
-                            ->select('users.id','users.name','users.cell','transport_requests.*')
+                            ->select('users.id','users.name','users.department_id','users.cell','transport_requests.*')
+                            ->where('users.department_id','=',Auth::user()->department_id)
                             ->get();
-        return (
-            $transportRequest
-    );
+
+         if (Departments::where('hod',Auth::id())->exists()) {
+            # code...
+            $checkingIfHod =true;
+        };
+
+        return ([
+            'data' => $transportRequest,
+            'is_hod_for_department' => $checkingIfHod
+           
+        ]);
     }
 
     /**
@@ -78,16 +90,23 @@ class TransportRequestController extends Controller
      */
     public function show($id)
     {
-        
+        $checkingIfHod=false;
         $transportRequest2 = DB::table('transport_requests')
         ->join('users', 'users.id','=', 'transport_requests.user_id')
         ->join('departments', 'departments.id' ,'=', 'users.department_id')
-        ->select('users.id','users.name','transport_requests.*')
+        ->select('users.id','users.name','users.cell','transport_requests.*')
         ->where('transport_requests.id','=',$id)
         ->get();
-        return (
-        $transportRequest2
-        );
+        
+        if (Departments::where('hod',Auth::id())->exists()) {
+            # code...
+            $checkingIfHod =true;
+        };
+        return ([
+            'data' => $transportRequest2,
+            'is_hod_for_department' => $checkingIfHod
+
+        ]);
     }
 
     /**
