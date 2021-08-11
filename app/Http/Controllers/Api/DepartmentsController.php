@@ -87,7 +87,7 @@ class DepartmentsController extends Controller
             } catch (Exception $error) {
                 return response()->json([
                 'status_code' => 500,
-                'message' => 'Error in Login',
+                'message' => 'Error in Department',
                 'error' => $error,
                 ]);
             }
@@ -119,9 +119,19 @@ class DepartmentsController extends Controller
                         'status_code' => 200,
                         'message' => 'HOD set successfull',
                         
-                      ]);     
-            }
-        }else{
+                      ]);    
+                    }
+                    else {
+                        return response()->json([
+                            'status_code' => 300,
+                            'message' => 'Error HOD not set',
+                            
+                          ]);                            
+                        
+                    } 
+        }
+     
+        else{
             $affected = DB::table('departments')
                             ->where('id', $id)
                             ->update(['department_name' => $request->name]);

@@ -49,11 +49,13 @@ class DepartmentsAndHODController extends Controller
             ->join('users', 'users.id','=', 'departments.hod')
             ->select('users.name', 'departments.*')
             ->where('departments.id','=', $id)
+            ->latest()
             ->get();
-
+            
             $departmentWithoutHOD = DB::table('departments')
             ->select('departments.*')
             ->where('departments.id','=', $id)
+            ->latest()
             ->get();
 
             if ($checkValueHod->contains('hod',0)) {

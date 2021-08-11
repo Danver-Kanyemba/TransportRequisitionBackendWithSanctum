@@ -12,6 +12,9 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\DepartmentsAndHODController;
 use App\Http\Controllers\Api\TransportOfficer;
 use App\Http\Controllers\Api\AllUsersController;
+use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\TransportOfficerController;
+use App\Http\Controllers\Api\checkIfAdminController;
 
 Route::post('/authenticate', [AuthController::class,'login']);
 
@@ -21,8 +24,11 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::apiResource('hod',HODController::class);
     Route::apiResource('munhuwacho',UserController::class);
     Route::apiResource('TransportOfficer',TransportOfficer::class);
+    Route::apiResource('officercontrol',TransportOfficerController::class);
+    Route::apiResource('admincontrol',AdminController::class);
+    Route::apiResource('/isadmin',checkIfAdminController::class);
     Route::get('/authenticate', [AuthController::class,'index']);
-    Route::get('/isadmin', [AuthController::class,'Administrator']);
+    // Route::get('/isadmin', [AuthController::class,'Administrator']);
     Route::get('/istransportofficer', [AuthController::class,'checkTransportOfficer']);
 
     

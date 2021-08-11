@@ -24,6 +24,8 @@ class TransportRequestController extends Controller
                             ->join('users', 'users.id','=', 'transport_requests.user_id')
                             ->select('users.id','users.name','users.department_id','users.cell','transport_requests.*')
                             ->where('users.department_id','=',Auth::user()->department_id)
+                            ->latest()
+                            // ->first()
                             ->get();
 
          if (Departments::where('hod',Auth::id())->exists()) {
